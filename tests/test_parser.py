@@ -1,4 +1,4 @@
-import parser from Parser
+from parser import Parser
 
 def test_parser():
     msg = "Sam"
