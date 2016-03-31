@@ -1,5 +1,4 @@
-import parser
+from parser import Parser
 
 def test_parser():
-    msg = "Sam"
-    assert msg, Parser.parse_message(msg)
+    assert '{"raw": "I am Sam"}' == Parser.parse_message("I am Sam")

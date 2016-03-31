@@ -1,4 +1,8 @@
+import json
+
 class Parser(object):
 
-  def parse_message(msg):
-    return msg
+    @staticmethod
+    def parse_message(msg):
+        contents = {"raw": msg}
+        return json.dumps(contents)
