@@ -23,3 +23,14 @@ class Parser(object):
             # remove whitespace and @ character
             mentions.add(mention.strip().replace("@", ""))
         return list(mentions)
+
+    def extract_emoticons(self, msg):
+        rgx = r"\(\w{1,15}\)"
+        found = re.findall(rgx, msg)
+        emoticons = Set()
+        for emoticon in found:
+            emoticons.add(emoticon[1:-1])
+        return list(emoticons)
+
+    def extract_links(self, msg):
+        return []

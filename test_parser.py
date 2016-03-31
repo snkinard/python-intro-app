@@ -15,3 +15,24 @@ def test_extract_mentions():
     assert "sam" in mentions
     assert "katie" in mentions
     assert "katherine" in mentions
+
+def test_extract_emoticons():
+    parse = Parser()
+    msg = "(smiley) hey! (smiley2) hello(smiley_3)world (morethanfifteencharacters) (fifteencharactr) (lolol lolol) ((sam)) yeah) (yeah"
+    emoticons = parse.extract_emoticons(msg)
+    assert 5 == len(emoticons)
+    assert "smiley" in emoticons
+    assert "smiley2" in emoticons
+    assert "smiley_3" in emoticons
+    assert "fifteencharactr" in emoticons
+    assert "sam" in emoticons
+
+def test_extract_emoticons_goofy():
+    parse = Parser()
+    msg = "yeah) (yeah (sam)"
+    emoticons = parse.extract_emoticons(msg)
+    assert 1 == len(emoticons)
+    assert "sam" in emoticons
+
+def test_extract_links():
+    parse = Parser()
