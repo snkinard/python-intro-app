@@ -33,6 +33,16 @@ class Parser(object):
             emoticons.add(emoticon[1:-1])
         return list(emoticons)
 
+    def get_link_metadata(self, links):
+        links_meta = []
+        for link in links:
+            br = Browser()
+            br.set_handle_robots(False)
+            # error handling?
+            br.open(link)
+            links_meta.append({"link": link, "title": br.title()})
+        return links_meta
+
     def extract_links(self, msg):
         rgx = self.url_regex()
         found = re.findall(rgx, msg)

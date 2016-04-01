@@ -46,3 +46,8 @@ def test_extract_links():
     assert url2 in links
     assert url3 in links
 
+def test_get_link_metadata():
+    links = ["http://www.vinylmeplease.com"]
+    parse = Parser()
+    meta_links = parse.get_link_metadata(links)
+    assert 1 == len(meta_links)
