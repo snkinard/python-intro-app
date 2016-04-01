@@ -33,4 +33,43 @@ class Parser(object):
         return list(emoticons)
 
     def extract_links(self, msg):
-        return []
+        rgx = self.url_regex()
+        found = re.findall(rgx, msg)
+        links = Set()
+        for link in found:
+            # kind of a kludge
+            links.add(link[0].strip())
+        return list(links)
+
+    # full disclosure, mostly yanked from here: https://stackoverflow.com/questions/9760588/how-do-you-extract-a-url-from-a-string-using-python/31952097#31952097
+    def url_regex(self):
+        regex = r'('
+
+        # Scheme (HTTP, HTTPS, FTP and SFTP):
+        regex += r'(?:(https?|s?ftp):\/\/)?'
+
+        # www:
+        regex += r'(?:www\.)?'
+
+        regex += r'('
+
+        # Host and domain (including ccSLD):
+        regex += r'(?:(?:[A-Z0-9][A-Z0-9-]{0,61}[A-Z0-9]\.)+)'
+
+        # TLD:
+        regex += r'([A-Z]{2,6})'
+
+        # IP Address:
+        regex += r'|(?:\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})'
+
+        regex += r')'
+
+        # Port:
+        regex += r'(?::(\d{1,5}))?'
+
+        # Query path:
+        regex += r'(?:(\/\S+)*)'
+
+        regex += r')'
+
+        return re.compile(regex, re.IGNORECASE)

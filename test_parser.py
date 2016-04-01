@@ -35,4 +35,13 @@ def test_extract_emoticons_goofy():
     assert "sam" in emoticons
 
 def test_extract_links():
+    url1 = "https://inbox.google.com"
+    url2 = "https://www.utexas.edu"
+    url3 = "https://www.host.domain.com:80/path/page.php?query=value&a2=v2#foo"
+    msg = "here is a link: {0} and two more {1} {2}".format(url1, url2, url3)
     parse = Parser()
+    links = parse.extract_links(msg)
+    assert 3 == len(links)
+    assert url1 in links
+    assert url2 in links
+    assert url3 in links
