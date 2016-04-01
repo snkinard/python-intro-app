@@ -45,3 +45,4 @@ def test_extract_links():
     assert url1 in links
     assert url2 in links
     assert url3 in links
+

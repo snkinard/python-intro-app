@@ -1,6 +1,7 @@
 import json
 import re
 from sets import Set
+from mechanize import Browser
 
 class Parser(object):
 
@@ -37,7 +38,7 @@ class Parser(object):
         found = re.findall(rgx, msg)
         links = Set()
         for link in found:
-            # kind of a kludge
+            # dunno if I like this. don't need seperate groups to make this work.
             links.add(link[0].strip())
         return list(links)
 
