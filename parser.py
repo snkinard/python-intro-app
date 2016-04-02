@@ -1,7 +1,6 @@
 import json
 import re
 from sets import Set
-from mechanize import Browser
 
 class Parser(object):
 
@@ -33,14 +32,13 @@ class Parser(object):
             emoticons.add(emoticon[1:-1])
         return list(emoticons)
 
-    def get_link_metadata(self, links):
+    def get_link_metadata(self, links, browser):
         links_meta = []
         for link in links:
-            br = Browser()
-            br.set_handle_robots(False)
+            browser.set_handle_robots(False)
             # error handling?
-            br.open(link)
-            links_meta.append({"link": link, "title": br.title()})
+            browser.open(link)
+            links_meta.append({"link": link, "title": browser.title()})
         return links_meta
 
     def extract_links(self, msg):

@@ -1,5 +1,7 @@
 from parser import Parser
 import json
+import pytest
+import mechanize
 
 def test_parser():
     parse = Parser()
@@ -46,8 +48,26 @@ def test_extract_links():
     assert url2 in links
     assert url3 in links
 
-def test_get_link_metadata():
+def test_get_link_metadata(monkeypatch):
+
+    url = "http://www.vinylmeplease.com"
+    def mockopen(browser, link):
+        assert url == link
+        return None
+    monkeypatch.setattr(mechanize.Browser, "open", mockopen)
+
+    title = "Vinyl Me, Please"
+    def mocktitle(browser):
+        return title
+    monkeypatch.setattr(mechanize.Browser, "title", mocktitle)
+
     links = ["http://www.vinylmeplease.com"]
     parse = Parser()
-    meta_links = parse.get_link_metadata(links)
+    browser = mechanize.Browser()
+    meta_links = parse.get_link_metadata(links, browser)
     assert 1 == len(meta_links)
+    link_hash = meta_links[0]
+    assert "link" in link_hash
+    assert url == link_hash["link"]
+    assert "title" in link_hash
+    assert title == link_hash["title"]
