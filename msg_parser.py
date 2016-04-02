@@ -2,7 +2,7 @@ import json
 import re
 from sets import Set
 
-class Parser(object):
+class MsgParser(object):
 
     def __init__(self):
         self.contents = {}

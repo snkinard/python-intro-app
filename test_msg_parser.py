@@ -1,16 +1,16 @@
-from parser import Parser
+from msg_parser import MsgParser
 import json
 import pytest
 import mechanize
 
 def test_parser():
-    parse = Parser()
+    parse = MsgParser()
     parse.parse_message("I am @sam and here is a link: https://www.simple.com have a nice day (smiley).")
     expected = {"raw": "I am @sam and here is a link: https://www.simple.com have a nice day (smiley).", "mentions": ["sam"]}
     assert json.dumps(expected) == parse.to_json_str()
 
 def test_extract_mentions():
-    parse = Parser()
+    parse = MsgParser()
     msg = "@sam or hello @sam's fiancee is your name @katie? Or is it @katherine or whatever? is your email snkinard@gmail.com? also here is this thing @ "
     mentions = parse.extract_mentions(msg)
     assert 3 == len(mentions)
@@ -19,7 +19,7 @@ def test_extract_mentions():
     assert "katherine" in mentions
 
 def test_extract_emoticons():
-    parse = Parser()
+    parse = MsgParser()
     msg = "(smiley) hey! (smiley2) hello(smiley_3)world (morethanfifteencharacters) (fifteencharactr) (lolol lolol) ((sam)) yeah) (yeah"
     emoticons = parse.extract_emoticons(msg)
     assert 5 == len(emoticons)
@@ -30,7 +30,7 @@ def test_extract_emoticons():
     assert "sam" in emoticons
 
 def test_extract_emoticons_goofy():
-    parse = Parser()
+    parse = MsgParser()
     msg = "yeah) (yeah (sam)"
     emoticons = parse.extract_emoticons(msg)
     assert 1 == len(emoticons)
@@ -41,7 +41,7 @@ def test_extract_links():
     url2 = "https://www.utexas.edu"
     url3 = "https://www.host.domain.com:80/path/page.php?query=value&a2=v2#foo"
     msg = "here is a link: {0} and two more {1} {2}".format(url1, url2, url3)
-    parse = Parser()
+    parse = MsgParser()
     links = parse.extract_links(msg)
     assert 3 == len(links)
     assert url1 in links
@@ -62,7 +62,7 @@ def test_get_link_metadata(monkeypatch):
     monkeypatch.setattr(mechanize.Browser, "title", mocktitle)
 
     links = ["http://www.vinylmeplease.com"]
-    parse = Parser()
+    parse = MsgParser()
     browser = mechanize.Browser()
     meta_links = parse.get_link_metadata(links, browser)
     assert 1 == len(meta_links)
