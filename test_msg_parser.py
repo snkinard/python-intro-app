@@ -1,4 +1,5 @@
 from msg_parser import MsgParser
+from urllib2 import HTTPError
 import json
 import pytest
 import mechanize
@@ -94,3 +95,28 @@ def test_get_link_metadata(monkeypatch):
     assert url2 == link_hash["url"]
     assert "title" in link_hash
     assert title == link_hash["title"]
+
+def test_get_link_metadata_error(monkeypatch):
+    url = "https://www.betterment.com"
+    def mockopen(browser, link):
+        assert link == url
+        raise HTTPError("https://www.betterment.com", 403, "Forbidden", "", None)
+    monkeypatch.setattr(mechanize.Browser, "open", mockopen)
+
+    def mocktitle(browser):
+        # don't want this method to be called if webpage was not opened
+        assert False
+    monkeypatch.setattr(mechanize.Browser, "title", mocktitle)
+
+    links = [url]
+    parse = MsgParser()
+    # hijack Browser instance so it can be mocked
+    parse.browser = mechanize.Browser()
+    meta_links = parse.get_link_metadata(links)
+    assert 1 == len(meta_links)
+
+    link_hash = meta_links[0]
+    assert "url" in link_hash
+    assert url == link_hash["url"]
+    assert "title" in link_hash
+    assert None == link_hash["title"]
