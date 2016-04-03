@@ -3,8 +3,22 @@ import json
 import pytest
 import mechanize
 
-def test_parser():
+def test_parser(monkeypatch):
+
+    url = "https://www.simple.com"
+    def mockopen(browser, link):
+        assert url == link
+        return None
+    monkeypatch.setattr(mechanize.Browser, "open", mockopen)
+
+    title = "Simple | Online Banking With Automatic Budgeting & Savings"
+    def mocktitle(browser):
+        return title
+    monkeypatch.setattr(mechanize.Browser, "title", mocktitle)
+
     parse = MsgParser()
+    # hijack Browser instance so it can be mocked
+    parse.browser = mechanize.Browser()
     parse.parse_message("I am @sam and here is a link: https://www.simple.com have a nice day (smiley).")
     expected = {"raw": "I am @sam and here is a link: https://www.simple.com have a nice day (smiley).", "mentions": ["sam"], "emoticons": ["smiley"], "links":[{"url": "https://www.simple.com", "title":"Simple | Online Banking With Automatic Budgeting & Savings"}]}
     assert json.dumps(expected) == parse.to_json_str()
@@ -50,24 +64,33 @@ def test_extract_links():
 
 def test_get_link_metadata(monkeypatch):
 
-    url = "http://www.vinylmeplease.com"
+    url1 = "http://www.vinylmeplease.com"
+    url2 = "https://www.betterment.com"
     def mockopen(browser, link):
-        assert url == link
-        return None
+        if (url1 != link) & (url2 != link):
+            assert False
     monkeypatch.setattr(mechanize.Browser, "open", mockopen)
 
-    title = "Vinyl Me, Please"
+    title = "A Website Title"
     def mocktitle(browser):
         return title
     monkeypatch.setattr(mechanize.Browser, "title", mocktitle)
 
-    links = ["http://www.vinylmeplease.com"]
+    links = [url1, url2]
     parse = MsgParser()
-    browser = mechanize.Browser()
-    meta_links = parse.get_link_metadata(links, browser)
-    assert 1 == len(meta_links)
+    # hijack Browser instance so it can be mocked
+    parse.browser = mechanize.Browser()
+    meta_links = parse.get_link_metadata(links)
+    assert 2 == len(meta_links)
+
     link_hash = meta_links[0]
     assert "url" in link_hash
-    assert url == link_hash["url"]
+    assert url1 == link_hash["url"]
+    assert "title" in link_hash
+    assert title == link_hash["title"]
+
+    link_hash = meta_links[1]
+    assert "url" in link_hash
+    assert url2 == link_hash["url"]
     assert "title" in link_hash
     assert title == link_hash["title"]

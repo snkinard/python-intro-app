@@ -7,13 +7,13 @@ class MsgParser(object):
 
     def __init__(self):
         self.contents = {}
+        self.browser = mechanize.Browser()
 
     def parse_message(self, msg):
         self.contents = {"raw": msg}
         self.contents["mentions"] = self.extract_mentions(msg)
         self.contents["emoticons"] = self.extract_emoticons(msg)
-        browser = mechanize.Browser()
-        self.contents["links"] = self.get_link_metadata(self.extract_links(msg), browser)
+        self.contents["links"] = self.get_link_metadata(self.extract_links(msg))
 
     def to_json_str(self):
         return json.dumps(self.contents)
@@ -36,13 +36,13 @@ class MsgParser(object):
             emoticons.add(emoticon[1:-1])
         return list(emoticons)
 
-    def get_link_metadata(self, links, browser):
+    def get_link_metadata(self, links):
         links_meta = []
+        self.browser.set_handle_robots(False)
         for link in links:
-            browser.set_handle_robots(False)
             # error handling?
-            browser.open(link)
-            links_meta.append({"url": link, "title": browser.title()})
+            self.browser.open(link)
+            links_meta.append({"url": link, "title": self.browser.title()})
         return links_meta
 
     def extract_links(self, msg):
