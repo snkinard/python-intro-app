@@ -6,7 +6,7 @@ import mechanize
 def test_parser():
     parse = MsgParser()
     parse.parse_message("I am @sam and here is a link: https://www.simple.com have a nice day (smiley).")
-    expected = {"raw": "I am @sam and here is a link: https://www.simple.com have a nice day (smiley).", "mentions": ["sam"]}
+    expected = {"raw": "I am @sam and here is a link: https://www.simple.com have a nice day (smiley).", "mentions": ["sam"], "emoticons": ["smiley"], "links":[{"url": "https://www.simple.com", "title":"Simple | Online Banking With Automatic Budgeting & Savings"}]}
     assert json.dumps(expected) == parse.to_json_str()
 
 def test_extract_mentions():
@@ -67,7 +67,7 @@ def test_get_link_metadata(monkeypatch):
     meta_links = parse.get_link_metadata(links, browser)
     assert 1 == len(meta_links)
     link_hash = meta_links[0]
-    assert "link" in link_hash
-    assert url == link_hash["link"]
+    assert "url" in link_hash
+    assert url == link_hash["url"]
     assert "title" in link_hash
     assert title == link_hash["title"]

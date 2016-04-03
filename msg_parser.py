@@ -1,6 +1,7 @@
 import json
 import re
 from sets import Set
+import mechanize
 
 class MsgParser(object):
 
@@ -10,6 +11,9 @@ class MsgParser(object):
     def parse_message(self, msg):
         self.contents = {"raw": msg}
         self.contents["mentions"] = self.extract_mentions(msg)
+        self.contents["emoticons"] = self.extract_emoticons(msg)
+        browser = mechanize.Browser()
+        self.contents["links"] = self.get_link_metadata(self.extract_links(msg), browser)
 
     def to_json_str(self):
         return json.dumps(self.contents)
@@ -38,7 +42,7 @@ class MsgParser(object):
             browser.set_handle_robots(False)
             # error handling?
             browser.open(link)
-            links_meta.append({"link": link, "title": browser.title()})
+            links_meta.append({"url": link, "title": browser.title()})
         return links_meta
 
     def extract_links(self, msg):
