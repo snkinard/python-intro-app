@@ -63,21 +63,3 @@ Type "help", "copyright", "credits" or "license" for more information.
 ```
 
 See [test_msg_parser.py](https://bitbucket.org/sam_kinard/msg-parse/src/7bebe865985b5836f9a9ce269c7e93eea6feb08c/test_msg_parser.py?at=master&fileviewer=file-view-default) for more interesting examples.    
-
-### TODO
-Stuff I want to get done before I submit this. Probably can't get to all of it
-
-* ~~manually test in python console~~
-* ~~mechanize error handling~~
-    * ~~code~~
-    * ~~unit test~~
-    * ~~manual verify~~
-* ~~refactor~~
-* ~~pep8~~
-    * ~~run~~
-    * ~~fix problems~~
-* ~~Readme Docs~~
-* Method Docs
-    * methods in MsgParser
-    * any other random comments to explain weird stuff
-* pylint
