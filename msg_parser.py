@@ -9,8 +9,8 @@ import mentions
 
 
 class MsgParser(object):
-"""The main class for the MsgParser package.
-"""
+    """The main class for the MsgParser package.
+    """
 
     def __init__(self):
         self.contents = {}
