@@ -40,13 +40,19 @@ class MsgParser(object):
         links_meta = []
         self.browser.set_handle_robots(False)
         for link in links:
-            # error handling?
+            open_failed = False
             try:
                 self.browser.open(link)
             except:
+                open_failed = True
+
+            if open_failed:
                 links_meta.append({"url": link, "title": None})
             else:
-                links_meta.append({"url": link, "title": self.browser.title()})
+                try:
+                    links_meta.append({"url": link, "title": self.browser.title()})
+                except:
+                    links_meta.append({"url": link, "title": None})
         return links_meta
 
     def extract_links(self, msg):
