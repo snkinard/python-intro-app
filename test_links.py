@@ -13,6 +13,7 @@ def test_extract():
     assert url2 in links_list
     assert url3 in links_list
 
+
 def test_get_metadata(monkeypatch):
 
     url1 = "http://www.vinylmeplease.com"
@@ -45,6 +46,7 @@ def test_get_metadata(monkeypatch):
     assert "title" in link_hash
     assert title == link_hash["title"]
 
+
 def test_get_link_metadata_open_error(monkeypatch):
     url = "https://www.betterment.com"
 
@@ -68,6 +70,7 @@ def test_get_link_metadata_open_error(monkeypatch):
     assert url == link_hash["url"]
     assert "title" in link_hash
     assert None == link_hash["title"]
+
 
 def test_get_link_metadata_title_error(monkeypatch):
     url = "https://www.betterment.com"
