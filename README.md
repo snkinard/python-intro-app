@@ -1,7 +1,5 @@
 [![Build Status](https://drone.io/bitbucket.org/sam_kinard/msg-parse/status.png)](https://drone.io/bitbucket.org/sam_kinard/msg-parse/latest)
 
-# Contents
-
 # Overview
 
 MsgParser is a simple python package that can build json metadata about a chat message. 
@@ -10,7 +8,7 @@ MsgParser is a simple python package that can build json metadata about a chat m
 
     I am @sam and here is a link: https://www.simple.com have a nice day (smiley).
 
-```
+```json
 {
   "raw": "I am @sam and here is a link: https://www.simple.com have a nice day (smiley).", 
   "emoticons": ["smiley"], 
@@ -45,11 +43,13 @@ To run the tests locally simply run [pytest](http://pytest.org/latest/) in the c
 
     $ py.test
 
+Continuous Integration is hosted in [drone.io](https://drone.io/bitbucket.org/sam_kinard/msg-parse)
+
 ### Usage
 
 It's easy to try out MsgParser in the python console:
 
-```
+```shell
 $ cd /path/to/code/directory
 $ python
 Python 2.7.10 (default, Oct 23 2015, 18:05:06)
@@ -61,7 +61,8 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> parse.to_json_str()
 '{"raw": "Hello, @sam!", "emoticons": [], "links": [], "mentions": ["sam"]}'
 ```
-    
+
+See [test_msg_parser.py](https://bitbucket.org/sam_kinard/msg-parse/src/7bebe865985b5836f9a9ce269c7e93eea6feb08c/test_msg_parser.py?at=master&fileviewer=file-view-default) for more interesting examples.    
 
 ### TODO
 Stuff I want to get done before I submit this. Probably can't get to all of it
@@ -75,13 +76,7 @@ Stuff I want to get done before I submit this. Probably can't get to all of it
 * ~~pep8~~
     * ~~run~~
     * ~~fix problems~~
-* Readme Docs
-    * Intro
-    * OSX setup instructions
-    * python terminal example
-    * How to Run Tests
-    * drone.io
-    * any extra thoughts about what could be done next
+* ~~Readme Docs~~
 * Method Docs
     * methods in MsgParser
     * any other random comments to explain weird stuff
