@@ -1,5 +1,6 @@
 import links
 import mechanize
+from urllib2 import HTTPError
 
 
 def test_extract():

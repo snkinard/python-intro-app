@@ -1,7 +1,5 @@
 from msg_parser import MsgParser
-from urllib2 import HTTPError
 import json
-import pytest
 import mechanize
 
 
