@@ -1,4 +1,4 @@
-[![Build Status](https://drone.io/bitbucket.org/sam_kinard/msg-parse/status.png)](https://drone.io/bitbucket.org/sam_kinard/msg-parse/latest)
+[![Build Status](https://drone.io/github.com/snkinard/python-intro-app/status.png)](https://drone.io/github.com/snkinard/python-intro-app/latest)
 
 # Overview
 
@@ -43,7 +43,7 @@ To run the tests locally simply run [pytest](http://pytest.org/latest/) in the c
 
     $ py.test
 
-Continuous Integration is hosted in [drone.io](https://drone.io/bitbucket.org/sam_kinard/msg-parse)
+Continuous Integration is hosted in [drone.io](https://drone.io/github.com/snkinard/python-intro-app)
 
 ### Usage
 
@@ -62,4 +62,4 @@ Type "help", "copyright", "credits" or "license" for more information.
 '{"raw": "Hello, @sam!", "emoticons": [], "links": [], "mentions": ["sam"]}'
 ```
 
-See [test_msg_parser.py](https://bitbucket.org/sam_kinard/msg-parse/src/7bebe865985b5836f9a9ce269c7e93eea6feb08c/test_msg_parser.py?at=master&fileviewer=file-view-default) for more interesting examples.    
+See [test_msg_parser.py](https://github.com/snkinard/python-intro-app/blob/master/test_msg_parser.py) for more interesting examples.    
