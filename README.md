@@ -30,7 +30,7 @@ This guide assumes that you have pulled the source code down onto your local mac
 
 Add the code directory to your python path
 
-    $ export PYTHONPATH=$PYTHONPATH:/Users/sam/code/msg-parse
+    $ export PYTHONPATH=$PYTHONPATH:/path/to/code/directory
 
 Install dependencies [pytest](http://pytest.org/latest/) and [mechanize](http://wwwsearch.sourceforge.net/mechanize/) using [easy_install](https://pythonhosted.org/setuptools/easy_install.html)
 
